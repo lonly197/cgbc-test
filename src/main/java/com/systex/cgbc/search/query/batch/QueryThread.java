@@ -21,8 +21,8 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class QueryThread implements Runnable {
     private static Logger LOG = LoggerFactory.getLogger(QueryThread.class);
-    private static ThreadPoolExecutor queryThreadPool;
-    private static List<Rule> rules;
+    private ThreadPoolExecutor queryThreadPool;
+    private List<Rule> rules;
     private ConcurrentLinkedQueue<JSONObject> requestQueue;// 查询请求任务队列
     private ConcurrentLinkedQueue<String> resultQueue;
     private QueryAPI queryAPI = new QueryAPI();
@@ -40,7 +40,8 @@ public class QueryThread implements Runnable {
 
 
     /**
-     * @param logFilePath       结果写入文件地址
+     * @param _queryThreadPool   请求线程池
+     * @param _rules             查询规则
      * @param _requestTaskQueue 请求任务队列
      * @param _resultQueue      查询结果队列
      * @param countDownLatch

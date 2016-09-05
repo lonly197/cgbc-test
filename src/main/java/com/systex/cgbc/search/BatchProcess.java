@@ -134,7 +134,7 @@ public class BatchProcess {
         pw.println("开始处理:" + startTime);
         pw.println("完成处理:" + endTime);
         pw.println(
-            String.format("精确查询次数:%s,模糊查询次数:%s,未查询到的次数", precisyCount.get(), fuzzyyCount.get(),
+            String.format("精确查询次数:%s,模糊查询次数:%s,未查询到的次数:%s", precisyCount.get(), fuzzyyCount.get(),
                 nonCount.get()));
         pw.flush();
         pw.close();
