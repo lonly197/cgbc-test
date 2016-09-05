@@ -30,14 +30,16 @@ public class SingleQueryThread implements Callable<String> {
     private AtomicInteger fuzzyyCount;
     private AtomicInteger nonCount;
     private String _field = "_all";
+    private String batchType;
     private List<Rule> rules;
 
     public SingleQueryThread(QueryAPI queryAPI, JSONObject jsonObject, List<Rule> rules,
-        AtomicInteger precisyCount,
-        AtomicInteger fuzzyyCount, AtomicInteger nonCount) {
+        String _batchType,
+        AtomicInteger precisyCount, AtomicInteger fuzzyyCount, AtomicInteger nonCount) {
         this.queryAPI = queryAPI;
         this.jsonObject = jsonObject;
         this.rules = rules;
+        this.batchType = _batchType;
         this.precisyCount = precisyCount;
         this.fuzzyyCount = fuzzyyCount;
         this.nonCount = nonCount;
@@ -69,7 +71,8 @@ public class SingleQueryThread implements Callable<String> {
             SResult result = new SResult();
             result.setQueryField(queryField);
             result.setPatternType(patternType);
-            if (Byte.valueOf("1").equals(patternType)) {
+            //精确查询
+            if (patternType == Byte.valueOf("1")) {
                 if (jsonObject.containsKey(queryField)) {
                     // 搜索的
                     String value = jsonObject.getString(queryField);
@@ -79,11 +82,7 @@ public class SingleQueryThread implements Callable<String> {
                         preciseSearch(indexName, indexType, _field, value, topN);
                     result.setTotalHits(searchHits.getTotalHits());
                     SearchHit[] hitArray = searchHits.getHits();
-                    if (hitArray.length > 0) {
-                        precisyCount.incrementAndGet();
-                    } else {
-                        nonCount.incrementAndGet();
-                    }
+
                     ArrayList<ColResult> hits = new ArrayList<ColResult>();
 
                     for (int i = 0; i < hitArray.length; i++) {
@@ -94,9 +93,19 @@ public class SingleQueryThread implements Callable<String> {
                         colResult.setScore(100.00);
                         hits.add(colResult);
                     }
-                    result.setHits(hits);
+                    result.setQuery(hits);
+
+                    if (hitArray.length > 0) {
+                        precisyCount.incrementAndGet();
+                        if (batchType.equals("performance")) {
+                            searceResult.add(result);
+                            break;
+                        }
+                    } else {
+                        nonCount.incrementAndGet();
+                    }
                 }
-            } else if (Byte.valueOf("2").equals(patternType)) {
+            } else if (patternType == Byte.valueOf("2")) { //模糊查询
                 int topN = rule.getTakeNum();
                 float minScore = rule.getScore();
                 if (jsonObject.containsKey(queryField)) {
@@ -114,9 +123,7 @@ public class SingleQueryThread implements Callable<String> {
                     ArrayList<ColResult> hits = new ArrayList<ColResult>();
                     for (int i = 0; i < hitArray.length; i++) {
                         SearchHit searchHit = searchHits.getAt(i);
-                        String fieldResult = searchHit != null ?
-                            searchHit.field(queryField).getValue().toString() :
-                            "";
+                        String fieldResult = searchHit.field(queryField).value().toString();
                         double score = ScoreUtil.getDistance(value, fieldResult) * 100;
                         if (searchHit != null) {
                             List<Object> resList = chgToHighLights(searchHit, value, score);
@@ -130,7 +137,7 @@ public class SingleQueryThread implements Callable<String> {
                             }
                         }
                     }
-                    result.setHits(hits);
+                    result.setQuery(hits);
                 }
             }
             searceResult.add(result);

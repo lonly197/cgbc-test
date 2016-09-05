@@ -19,7 +19,8 @@ public class FileUtil {
     /**
      * 创建目录
      *
-     * @param dir 目录
+     * @param dir
+     *            目录
      */
     public static boolean mkdir(String dir) {
         try {
@@ -38,7 +39,8 @@ public class FileUtil {
     /**
      * 创建目录及其上级目录
      *
-     * @param dirs 目录路径
+     * @param dirs
+     *            目录路径
      */
     public static boolean mkdirs(String dirs) {
         try {
@@ -56,7 +58,7 @@ public class FileUtil {
 
     /**
      * 判断文件是否存在.
-     *
+     * 
      * @param path
      * @return
      */
@@ -69,8 +71,10 @@ public class FileUtil {
     /**
      * 删除文件夹或清空文件夹
      *
-     * @param dir_path     文件夹的path
-     * @param isDelRootDir true 删除，false 清空
+     * @param dir_path
+     *            文件夹的path
+     * @param isDelRootDir
+     *            true 删除，false 清空
      */
     public static void deldir(String dir_path, boolean isDelRootDir) {
         File file = new File(dir_path);
@@ -127,8 +131,11 @@ public class FileUtil {
     /**
      * 新建文件并写内容
      *
-     * @param filePath 包含路径的文件名 如:E:\phsftp\src\123.txt
-     * @param content  文件内容
+     * @param filePath
+     *            包含路径的文件名 如:E:\phsftp\src\123.txt
+     * @param content
+     *            文件内容
+     *
      */
     public static boolean createNewFile(String filePath, String content) {
         PrintWriter pw = null;
@@ -155,7 +162,8 @@ public class FileUtil {
     /**
      * 重命名单个文件
      *
-     * @param targetfilePath 包含路径的文件名
+     * @param targetfilePath
+     *            包含路径的文件名
      */
     public static boolean renameFile(String srcfilePath, String targetfilePath) {
         File srcFile = new File(srcfilePath);
@@ -166,7 +174,8 @@ public class FileUtil {
     /**
      * 删除单个文件
      *
-     * @param filePath 包含路径的文件名
+     * @param filePath
+     *            包含路径的文件名
      */
     public static boolean delFile(String filePath) {
         try {
@@ -197,8 +206,10 @@ public class FileUtil {
     /**
      * 复制单个文件
      *
-     * @param srcFilePath  包含路径的源文件 如：E:/abc.txt
-     * @param destFilePath 目标文件目录；若文件目录不存在则自动创建 如：E:/dest
+     * @param srcFilePath
+     *            包含路径的源文件 如：E:/abc.txt
+     * @param destFilePath
+     *            目标文件目录；若文件目录不存在则自动创建 如：E:/dest
      * @throws java.io.IOException
      */
     public static void copyFile(String srcFilePath, String destFilePath) throws IOException {
@@ -225,8 +236,10 @@ public class FileUtil {
     /**
      * 复制文件夹
      *
-     * @param oldPath String 源文件夹路径 如：E:/src
-     * @param newPath String 目标文件夹路径 如：E:/dest
+     * @param oldPath
+     *            String 源文件夹路径 如：E:/src
+     * @param newPath
+     *            String 目标文件夹路径 如：E:/dest
      */
     public static void copyFolder(String oldPath, String newPath) {
         try {
@@ -259,7 +272,8 @@ public class FileUtil {
     /**
      * 读取文件内容
      *
-     * @param filePath 文件路径
+     * @param filePath
+     *            文件路径
      */
     public static String readFile(String filePath) {
         StringBuffer sb = new StringBuffer();
@@ -287,7 +301,7 @@ public class FileUtil {
 
     /**
      * 以行为单位读取文件
-     *
+     * 
      * @param filePath
      * @return
      */
@@ -298,7 +312,7 @@ public class FileUtil {
 
     /**
      * 取文件行数
-     *
+     * 
      * @param filePath
      * @return
      */
@@ -310,9 +324,12 @@ public class FileUtil {
     /**
      * 按行号为单位按行读取文件，行号以1开始，-1代表无限小或无限大
      *
-     * @param filePath   文件路径
-     * @param beginIndex 开始行号
-     * @param endIndex   结束行号
+     * @param filePath
+     *            文件路径
+     * @param beginIndex
+     *            开始行号
+     * @param endIndex
+     *            结束行号
      * @return
      */
     public static List<String> readFileByLines(String filePath, int beginIndex, int endIndex) {
@@ -349,7 +366,7 @@ public class FileUtil {
 
     /**
      * 以行为单位读取文件
-     *
+     * 
      * @param filePath
      * @return
      */
@@ -361,9 +378,12 @@ public class FileUtil {
     /**
      * 按行号为单位按行读取文件，行号以1开始，-1代表无限小或无限大
      *
-     * @param filePath   文件路径
-     * @param beginIndex 开始行号
-     * @param endIndex   结束行号
+     * @param filePath
+     *            文件路径
+     * @param beginIndex
+     *            开始行号
+     * @param endIndex
+     *            结束行号
      * @return
      */
     public static List<String> readFileByLinesNoDup(String filePath, int beginIndex, int endIndex) {
@@ -405,9 +425,12 @@ public class FileUtil {
     /**
      * 写文件
      *
-     * @param content  写入内容
-     * @param filePath 写入的文件
-     * @param append   是否追加到文件
+     * @param content
+     *            写入内容
+     * @param filePath
+     *            写入的文件
+     * @param append
+     *            是否追加到文件
      * @throws Exception
      */
     public static void writeFile(String filePath, String content, boolean append) {
@@ -431,7 +454,7 @@ public class FileUtil {
 
     /**
      * 文件名是否采用日期格式
-     *
+     * 
      * @param filePath
      * @param fileName
      * @param fileName
@@ -447,9 +470,12 @@ public class FileUtil {
     /**
      * 按行写文件List
      *
-     * @param filePath 文件路径
-     * @param list     写入内容的String 列表
-     * @param append   是否追加到文件
+     * @param filePath
+     *            文件路径
+     * @param list
+     *            写入内容的String 列表
+     * @param append
+     *            是否追加到文件
      */
     public static void writeFileByLines(String filePath, List<String> list, boolean append) {
         PrintWriter pw = null;
@@ -500,7 +526,7 @@ public class FileUtil {
 
     /**
      * 写对象到文件
-     *
+     * 
      * @param obj
      * @param filePath
      */
@@ -526,7 +552,7 @@ public class FileUtil {
 
     /**
      * 从文件读对象
-     *
+     * 
      * @param filePath
      * @return
      */
@@ -557,7 +583,7 @@ public class FileUtil {
 
     /**
      * 根据当前日期产生文件名
-     *
+     * 
      * @param prefix
      * @return
      */
@@ -569,7 +595,7 @@ public class FileUtil {
 
     /**
      * 根据文件路径获取输出流
-     *
+     * 
      * @param path
      * @return
      */
@@ -580,7 +606,7 @@ public class FileUtil {
 
     /**
      * 根据文件路径获取输出流
-     *
+     * 
      * @param path
      * @param charset
      * @return
@@ -603,7 +629,7 @@ public class FileUtil {
 
     /**
      * 根据文件路径获取输入流
-     *
+     * 
      * @param path
      * @return
      */
@@ -614,7 +640,7 @@ public class FileUtil {
 
     /**
      * 根据文件路径获取输入流
-     *
+     * 
      * @param path
      * @param charset
      * @return
@@ -637,7 +663,7 @@ public class FileUtil {
 
     /**
      * 获取文件后缀
-     *
+     * 
      * @param fileName
      * @return
      */
@@ -649,7 +675,7 @@ public class FileUtil {
 
     /**
      * 更改名字
-     *
+     * 
      * @param fileName
      * @return
      */

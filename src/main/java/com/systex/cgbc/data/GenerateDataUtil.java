@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
-
 /**
  * 产生模拟数据工具类
  */
@@ -50,7 +49,6 @@ public class GenerateDataUtil {
         "134,135,136,137,138,139,150,151,152,157,158,159,130,131,132,155,156,133,153"
             .split(",");
 
-
     public GenerateDataUtil(List<String> sampleData, int threadNum) {
         data = sampleData;
         this.threadNum = threadNum;
@@ -64,9 +62,8 @@ public class GenerateDataUtil {
     public static void initCitiesData(String citesFile) {
         LOG.info("初始化城市数据{}开始", citesFile);
         try {
-            BufferedReader in =
-                new BufferedReader(new InputStreamReader(GenerateDataTask.class.getClassLoader()
-                    .getResourceAsStream(citesFile), "utf-8"));
+            BufferedReader in = new BufferedReader(new InputStreamReader(
+                GenerateDataTask.class.getClassLoader().getResourceAsStream(citesFile), "utf-8"));
             String line = "";
             int num = 0;
             while ((line = in.readLine()) != null) {
@@ -211,11 +208,11 @@ public class GenerateDataUtil {
     }
 
     public String changeToStr(String[] data, String uuid) {
-        StringBuffer str = new StringBuffer();
+        StringBuffer str = new StringBuffer(uuid + ":");
         for (int i = 0; i < data.length; i++) {
             str.append(data[i]).append(",");
         }
-        str.append(uuid);
-        return str.toString();
-    }
+		str.append(uuid);
+		return str.toString();
+	}
 }

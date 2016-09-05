@@ -1,5 +1,5 @@
 /**
- *
+ * 
  */
 package com.systex.cgbc.search.util;
 

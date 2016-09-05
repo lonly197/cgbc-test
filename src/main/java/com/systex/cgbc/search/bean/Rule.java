@@ -2,7 +2,6 @@ package com.systex.cgbc.search.bean;
 
 /**
  * 匹配规则
- *
  * @author 泳
  */
 public class Rule {
@@ -90,5 +89,5 @@ public class Rule {
 
     public void setIsDisable(Byte isDisable) {
         this.isDisable = isDisable;
-    }
+	}
 }

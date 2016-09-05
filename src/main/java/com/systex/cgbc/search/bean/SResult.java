@@ -27,7 +27,7 @@ public class SResult {
     /**
      * 查询结果、评分
      */
-    public ArrayList<ColResult> hits;
+    public ArrayList<ColResult> query;
 
     public Byte getPatternType() {
         return patternType;
@@ -45,12 +45,12 @@ public class SResult {
         this.totalHits = totalHits;
     }
 
-    public ArrayList<ColResult> getHits() {
-        return hits;
+    public ArrayList<ColResult> getQuery() {
+        return query;
     }
 
-    public void setHits(ArrayList<ColResult> hits) {
-        this.hits = hits;
+    public void setQuery(ArrayList<ColResult> query) {
+        this.query = query;
     }
 
     public String getQueryField() {

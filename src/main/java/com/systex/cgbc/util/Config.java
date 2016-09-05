@@ -56,7 +56,7 @@ public class Config {
 
     /**
      * 获取String型变量
-     *
+     * 
      * @param name
      * @return
      */
@@ -67,7 +67,7 @@ public class Config {
 
     /**
      * 获取Long型变量
-     *
+     * 
      * @param name
      * @return
      */
@@ -78,7 +78,7 @@ public class Config {
 
     /**
      * 获取String型变量
-     *
+     * 
      * @param name
      * @return
      */
@@ -89,14 +89,13 @@ public class Config {
 
     /**
      * 获取String[] 型 变量
-     *
+     * 
      * @param name
      * @return
      */
     public String[] getArrays(String name) {
         String value = this.getProperty(name);
         try {
-            LOG.info("value:" + value + " name:" + name);
             return value.split(",");
         } catch (Exception e) {
             LOG.error("拆分fields时出现异常:", e.getMessage());
@@ -108,7 +107,7 @@ public class Config {
 
     /**
      * 打倒输出Property文件内容，测试之用。
-     *
+     * 
      * @param properties
      */
     public void printProperty(Properties properties) {

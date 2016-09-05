@@ -74,7 +74,7 @@ public class LoadDataTask implements Callable<Object> {
                 LOG.info("线程{}加载文件{}开始", Thread.currentThread().getName(), file.getName());
 
                 // 索引单个文件
-                //                bulkload(file);
+                bulkload(file);
                 long endTime = System.currentTimeMillis();
                 LOG.info("线程{}加载文件{}结束,耗时:{}毫秒", Thread.currentThread().getName(), file.getName(),
                     (endTime - startTime));
@@ -91,7 +91,7 @@ public class LoadDataTask implements Callable<Object> {
 
     /**
      * 针对单个文件进行批量加载处理
-     *
+     * 
      * @param file
      */
     private void bulkload(File file) {
@@ -137,7 +137,7 @@ public class LoadDataTask implements Callable<Object> {
 
     /**
      * 生成索引Request
-     *
+     * 
      * @param fieldValues
      * @return
      */

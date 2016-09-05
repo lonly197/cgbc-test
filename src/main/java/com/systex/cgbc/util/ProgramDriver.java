@@ -29,10 +29,13 @@ public class ProgramDriver {
     /**
      * This is the method that adds the classed to the repository
      *
-     * @param name        The name of the string you want the class instance to be
-     *                    called with
-     * @param mainClass   The class that you want to add to the repository
-     * @param description The description of the class
+     * @param name
+     *            The name of the string you want the class instance to be
+     *            called with
+     * @param mainClass
+     *            The class that you want to add to the repository
+     * @param description
+     *            The description of the class
      * @throws NoSuchMethodException
      * @throws SecurityException
      */
@@ -46,12 +49,14 @@ public class ProgramDriver {
      * is found, it calls the main method in that class with the rest of the
      * command line arguments.
      *
-     * @param args The argument from the user. args[0] is the command to run.
+     * @param args
+     *            The argument from the user. args[0] is the command to run.
      * @throws NoSuchMethodException
      * @throws SecurityException
      * @throws IllegalAccessException
      * @throws IllegalArgumentException
-     * @throws Throwable                Anything thrown by the example program's main
+     * @throws Throwable
+     *             Anything thrown by the example program's main
      */
     public void driver(String[] args) throws Throwable {
         // Make sure they gave us a program name.
@@ -80,6 +85,7 @@ public class ProgramDriver {
 
     /**
      * 基于类的程序描述
+     *
      */
     static private class ProgramDescription {
 
@@ -91,10 +97,14 @@ public class ProgramDriver {
         /**
          * Create a description of an example program.
          *
-         * @param mainClass   the class with the main for the example program
-         * @param description a string to display to the user in help messages
-         * @throws SecurityException     if we can't use reflection
-         * @throws NoSuchMethodException if the class doesn't have a main method
+         * @param mainClass
+         *            the class with the main for the example program
+         * @param description
+         *            a string to display to the user in help messages
+         * @throws SecurityException
+         *             if we can't use reflection
+         * @throws NoSuchMethodException
+         *             if the class doesn't have a main method
          */
         public ProgramDescription(Class<?> mainClass, String description) throws SecurityException,
             NoSuchMethodException {
@@ -105,8 +115,10 @@ public class ProgramDriver {
         /**
          * Invoke the example application with the given arguments
          *
-         * @param args the arguments for the application
-         * @throws Throwable The exception thrown by the invoked method
+         * @param args
+         *            the arguments for the application
+         * @throws Throwable
+         *             The exception thrown by the invoked method
          */
         public void invoke(String[] args) throws Throwable {
             try {

@@ -22,9 +22,13 @@ public class GenerateDataTask implements Runnable {
 
 
     /**
-     * @param data   样例数据集合
-     * @param output 输出路径
-     * @param num    产生模拟数据条数
+     *
+     * @param data
+     *            样例数据集合
+     * @param output
+     *            输出路径
+     * @param num
+     *            产生模拟数据条数
      * @param latch
      */
     public GenerateDataTask(List<String> data, String output, int num, int threadNum,

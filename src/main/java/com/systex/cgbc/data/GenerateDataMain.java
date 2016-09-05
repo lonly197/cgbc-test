@@ -45,7 +45,7 @@ public class GenerateDataMain {
 
     /**
      * 程序的主体逻辑
-     *
+     * 
      * @param outputDir
      * @param threadCount
      * @param count
@@ -82,7 +82,7 @@ public class GenerateDataMain {
 
     /**
      * 加载样例数据
-     *
+     * 
      * @param sampleFile
      * @throws IOException
      */

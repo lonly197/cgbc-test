@@ -12,7 +12,6 @@ import java.io.FileInputStream;
 import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import java.util.concurrent.ConcurrentLinkedQueue;
 
 
@@ -51,15 +50,13 @@ public class ReadRequestFile {
      * 解析文件，生成请求队列
      */
     public void genRequestQueue() {
-        LOG.info("read File start");
+        LOG.info("开始读取数据..");
         File file = new File(reqFilePath);
         int i = 1;
         if (file.isFile()) {
             try {
-                BufferedReader bufferedReader =
-                    new BufferedReader(
-                        new InputStreamReader(new FileInputStream(new File(reqFilePath)),
-                            "utf-8"));
+                BufferedReader bufferedReader = new BufferedReader(
+                    new InputStreamReader(new FileInputStream(new File(reqFilePath)), "utf-8"));
                 String line = bufferedReader.readLine();
                 while (line != null) {
                     if (i > lineNum) {
@@ -71,19 +68,19 @@ public class ReadRequestFile {
                     line = bufferedReader.readLine();
                 }
                 bufferedReader.close();
-                LOG.info("read File finish!,generate " + lineNum + "个请求");
+                LOG.info("读取文件完毕,生成 " + lineNum + "个请求!");
             } catch (Exception e) {
-                LOG.error("read File occure exception:", e.getMessage());
+                LOG.error("读取文件出错:", e.getMessage());
                 e.printStackTrace();
             }
         }
     }
 
-
     /**
      * 解析每行数据，将其解析成一个json
      *
-     * @param line 行数据
+     * @param line
+     *            行数据
      */
     private JSONObject parseRequest(String line) {
         Map<String, String> resMap = changeFormat(line);
@@ -101,9 +98,10 @@ public class ReadRequestFile {
      */
     public Map<String, String> changeFormat(String searchData) {
         Map<String, String> map = new HashMap<String, String>();
-        String[] values = searchData.split(",");
         // 随机生成UUID作为申请单ID
-        String billId = UUID.randomUUID().toString();
+        String[] temp = searchData.split(":");
+        String billId = temp[0];
+        String[] values = temp[1].split(",");
         String[] index_fields = fields.split(",");
         for (int i = 0; i < index_fields.length; i++) {
             map.put(index_fields[i], values[i]);

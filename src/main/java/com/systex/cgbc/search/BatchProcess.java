@@ -37,26 +37,32 @@ public class BatchProcess {
     }
 
 
+
     /**
      * 主函数，批量处理程序入口
      */
     public static void main(String args[]) {
         int lineNum = 1000;
-        if (args.length > 0)
+        String batchType = "stress";
+        if (args.length > 1) {
             lineNum = Integer.parseInt(args[0]);
+            batchType = args[1];
+        }
+
         BatchProcess bp = new BatchProcess();
 
         String startTime = DateUtil.getNowTime();
         LOG.info("批处理开始时间:{}", startTime);
-        bp.run(lineNum);
+        bp.run(lineNum, batchType);
         String endTime = DateUtil.getNowTime();
         LOG.info("批处理结束时间:{}", endTime);
 
         // 输出批量处理汇总信息
         bp.outputSummaryResult(startTime, endTime);
         // 输出批量处理明细信息
-        bp.outputSummaryResult(startTime, endTime);
+        bp.outputDetailResult();
     }
+
 
 
     /**
@@ -79,11 +85,10 @@ public class BatchProcess {
         ThreadPool.initPool(workQueueSize, corePoolSize, maxPoolSize);
     }
 
-
     /**
      * 批量处理程序的主体逻辑部分
      */
-    public void run(int lineNum) {
+    public void run(int lineNum, String batchType) {
         String inputPath = config.getProperty("inputPath");
         int queryThreadSize = config.getInt("queryThreadSize");
 
@@ -105,9 +110,8 @@ public class BatchProcess {
         for (int i = 0; i < queryThreadSize; i++) {
             // 启动查询线程
             Runnable r =
-                new QueryThread(queryThreadPool, rules, requestTaskQueue, resultQueue,
-                    countDownLatch,
-                    precisyCount, fuzzyyCount, nonCount);
+                new QueryThread(queryThreadPool, rules, batchType, requestTaskQueue, resultQueue,
+                    countDownLatch, precisyCount, fuzzyyCount, nonCount);
             Thread queryThread = new Thread(r);
             executorService.submit(queryThread);
         }
@@ -120,10 +124,9 @@ public class BatchProcess {
         executorService.shutdown();
     }
 
-
     /**
      * 输出批量处理的汇总信息
-     *
+     * 
      * @param startTime
      * @param endTime
      */
@@ -134,12 +137,11 @@ public class BatchProcess {
         pw.println("开始处理:" + startTime);
         pw.println("完成处理:" + endTime);
         pw.println(
-            String.format("精确查询次数:%s,模糊查询次数:%s,未查询到的次数:%s", precisyCount.get(), fuzzyyCount.get(),
+            String.format("精确查询次数:%s,模糊查询次数:%s,未查询到的次数", precisyCount.get(), fuzzyyCount.get(),
                 nonCount.get()));
         pw.flush();
         pw.close();
     }
-
 
     /**
      * 输出批量处理的明细处理结果
@@ -148,7 +150,7 @@ public class BatchProcess {
         String outputPath = config.getProperty("outputPath");
         PrintWriter pw = FileUtil.getPrintWriter(outputPath + "detail.txt");
         while (resultQueue.size() > 0) {
-            String result = resultQueue.poll() + "\n";
+            String result = resultQueue.poll();
             pw.println(result);
         }
         pw.flush();

@@ -9,7 +9,6 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-
 /**
  * 批量导入数据到搜索集群
  */
@@ -21,13 +20,11 @@ public class LoadData {
     private int threadSize = 10;
     private int bulkSize = 1000;
 
-
     public LoadData(String[] params) {
         inputPath = params[0].trim();
         threadSize = Integer.parseInt(params[1]);
         bulkSize = Integer.parseInt(params[2]);
     }
-
 
     public void run() {
         long start = System.currentTimeMillis();
@@ -65,6 +62,6 @@ public class LoadData {
             e.printStackTrace();
         }
         executor.shutdown();
-        LOG.info("程序运行总时间:{}" + (System.currentTimeMillis() - start));
+        LOG.info("程序运行总时间:{}ms", (System.currentTimeMillis() - start));
     }
 }
