@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<config>
+    <db>
+        <!-- 数据库配置 -->
+        <datasource id="stp">
+            <driverClassName>com.mysql.jdbc.Driver</driverClassName>
+            <!--<url>jdbc:mysql://localhost:3306/stp?useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf-8
+            </url>
+            <username>root</username>
+            <password>ZtSK/mSIq6usz0Y8rABogbO8SsploQaCscXTtjoNm37ghZjjjjVuMuemjlaieb6ft/JtFJ09vVy7GKLzj/dwNw==</password>-->
+            <url>jdbc:mysql://192.1.1.111:3306/stp?useUnicode=true&amp;zeroDateTimeBehavior=convertToNull&amp;characterEncoding=utf-8
+            </url>
+            <username>root</username>
+            <password>
+                bNVOqb7WKLX5Bjnw+LMv92taj25KOxDimXxILPQjw42wgv+1lHzOH8kr97xDwWdhpY67QuYCS7sWN4W46YbkFA==
+            </password>
+            <initialSize>2</initialSize>
+            <minIdle>10</minIdle>
+            <maxActive>100</maxActive>
+            <maxWait>50000</maxWait>
+            <timeBetweenEvictionRunsMillis>50000</timeBetweenEvictionRunsMillis>
+            <minEvictableIdleTimeMillis>50000</minEvictableIdleTimeMillis>
+            <validationQuery>select 1 from dual</validationQuery>
+            <testWhileIdle>true</testWhileIdle>
+            <testOnBorrow>false</testOnBorrow>
+            <testOnReturn>false</testOnReturn>
+            <poolPreparedStatements>false</poolPreparedStatements>
+            <maxPoolPreparedStatementPerConnectionSize>200
+            </maxPoolPreparedStatementPerConnectionSize>
+            <filters>config</filters>
+            <connectionProperties>config.decrypt=true</connectionProperties>
+        </datasource>
+    </db>
+</config>
