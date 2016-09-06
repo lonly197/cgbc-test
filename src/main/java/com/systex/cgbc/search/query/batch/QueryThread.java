@@ -38,7 +38,9 @@ public class QueryThread implements Runnable {
     }
 
     /**
-     * @param logFilePath       结果写入文件地址
+     * @param _queryThreadPool   查询线程池
+     * @param _rules             查询匹配规则
+     * @param _batchType
      * @param _requestTaskQueue 请求任务队列
      * @param _resultQueue      查询结果队列
      * @param countDownLatch

@@ -72,7 +72,7 @@ public class SingleQueryThread implements Callable<String> {
             result.setQueryField(queryField);
             result.setPatternType(patternType);
             //精确查询
-            if (patternType == Byte.valueOf("1")) {
+            if (Byte.valueOf("1").equals(patternType)) {
                 if (jsonObject.containsKey(queryField)) {
                     // 搜索的
                     String value = jsonObject.getString(queryField);
@@ -105,7 +105,7 @@ public class SingleQueryThread implements Callable<String> {
                         nonCount.incrementAndGet();
                     }
                 }
-            } else if (patternType == Byte.valueOf("2")) { //模糊查询
+            } else if (Byte.valueOf("2").equals(patternType)) { //模糊查询
                 int topN = rule.getTakeNum();
                 float minScore = rule.getScore();
                 if (jsonObject.containsKey(queryField)) {
@@ -123,7 +123,8 @@ public class SingleQueryThread implements Callable<String> {
                     ArrayList<ColResult> hits = new ArrayList<ColResult>();
                     for (int i = 0; i < hitArray.length; i++) {
                         SearchHit searchHit = searchHits.getAt(i);
-                        String fieldResult = searchHit.field(queryField).value().toString();
+                        String fieldResult =
+                            searchHit != null ? searchHit.field(queryField).value().toString() : "";
                         double score = ScoreUtil.getDistance(value, fieldResult) * 100;
                         if (searchHit != null) {
                             List<Object> resList = chgToHighLights(searchHit, value, score);

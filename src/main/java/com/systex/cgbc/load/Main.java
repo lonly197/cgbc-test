@@ -1,5 +1,6 @@
 package com.systex.cgbc.load;
 
+import com.google.common.base.Strings;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +23,7 @@ public class Main {
         for (String param : args) {
             i++;
             LOG.info("第{}个输入参数的值是:{}", i, param);
-            if (param.trim() == "") {
+            if (Strings.isNullOrEmpty(param)) {
                 System.err.println("所有参数不能为空,请正确输入程序参数");
                 System.exit(1);
             }
