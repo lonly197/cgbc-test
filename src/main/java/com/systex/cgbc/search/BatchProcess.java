@@ -1,6 +1,7 @@
 package com.systex.cgbc.search;
 
 import com.alibaba.fastjson.JSONObject;
+import com.google.common.base.Strings;
 import com.systex.cgbc.search.bean.Rule;
 import com.systex.cgbc.search.query.batch.QueryThread;
 import com.systex.cgbc.search.query.batch.ReadRequestFile;
@@ -23,7 +24,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  */
 public class BatchProcess {
     private static Logger LOG = LoggerFactory.getLogger(BatchProcess.class);
-    private Config config = Config.getInstance();
+    private static Config config = Config.getInstance();
 
     private ConcurrentLinkedQueue<String> resultQueue = new ConcurrentLinkedQueue<String>();
 
@@ -33,7 +34,6 @@ public class BatchProcess {
 
 
     public BatchProcess() {
-        init();
     }
 
 
@@ -44,12 +44,29 @@ public class BatchProcess {
     public static void main(String args[]) {
         int lineNum = 1000;
         String batchType = "stress";
-        if (args.length > 1) {
-            lineNum = Integer.parseInt(args[0]);
-            batchType = args[1];
+        String indexName = "";
+        switch (String.valueOf(args.length)) {
+            case "1":
+                lineNum = Integer.parseInt(args[0]);
+                break;
+            case "2":
+                lineNum = Integer.parseInt(args[0]);
+                batchType = args[1];
+                break;
+            case "3":
+                lineNum = Integer.parseInt(args[0]);
+                batchType = args[1];
+                indexName = args[2];
+                break;
+            default:
+                break;
         }
+        init(indexName);
 
         BatchProcess bp = new BatchProcess();
+
+        LOG.info("lineNum:{}", lineNum);
+        LOG.info("batchType:{}", batchType);
 
         String startTime = DateUtil.getNowTime();
         LOG.info("批处理开始时间:{}", startTime);
@@ -68,11 +85,16 @@ public class BatchProcess {
     /**
      * 初始化
      */
-    public void init() {
-        String indexName = config.getProperty("indexName");
-        String indexType = config.getProperty("indexType");
+    public static void init(String indexName) {
+        String _indexName =
+            Strings.isNullOrEmpty(indexName) ? config.getProperty("indexName") : indexName;
+        String _indexType = config.getProperty("indexType");
+
+        LOG.info("indexType:{}", _indexName);
+        LOG.info("indexType:{}", _indexType);
+
         // 查询线程初始化
-        QueryThread.init(indexName, indexType);
+        QueryThread.init(_indexName, _indexType);
 
         // 初始化配置规则
         RuleUtil.init();
@@ -81,6 +103,10 @@ public class BatchProcess {
         int workQueueSize = config.getInt("workQueueSize");
         int corePoolSize = config.getInt("corePoolSize");
         int maxPoolSize = config.getInt("maxPoolSize");
+
+        LOG.info("workQueueSize:{}", workQueueSize);
+        LOG.info("corePoolSize:{}", corePoolSize);
+        LOG.info("maxPoolSize:{}", maxPoolSize);
 
         ThreadPool.initPool(workQueueSize, corePoolSize, maxPoolSize);
     }
@@ -113,7 +139,11 @@ public class BatchProcess {
                 new QueryThread(queryThreadPool, rules, batchType, requestTaskQueue, resultQueue,
                     countDownLatch, precisyCount, fuzzyyCount, nonCount);
             Thread queryThread = new Thread(r);
-            executorService.submit(queryThread);
+            try {
+                executorService.submit(queryThread);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
         try {
             countDownLatch.await();

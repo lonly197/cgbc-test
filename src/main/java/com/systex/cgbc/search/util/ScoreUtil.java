@@ -128,14 +128,14 @@ public class ScoreUtil {
     }
 
     public static void main(String[] args) {
-        String str1 = "贾志�?";
-        String str2 = "贾志aaa";
+        String str1 = "小明";
+        String str2 = "小明aaa";
         System.out.println(getDistance(str1, str2));
         System.out.println(sim(str1, str2));
 
-        for (int i = 0; i < 10; i++) {
+        /*for (int i = 0; i < 10; i++) {
             getDistance(str1, str2);
-        }
+        }*/
     }
 
 }

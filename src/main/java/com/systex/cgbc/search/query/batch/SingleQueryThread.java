@@ -15,7 +15,10 @@ import org.elasticsearch.search.highlight.HighlightField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.Callable;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -162,7 +165,7 @@ public class SingleQueryThread implements Callable<String> {
         Map<String, SearchHitField> hitfieldMap = searchHit.getFields();
         Map<String, HighlightField> highlightFieldMap = searchHit.highlightFields();
         double temp = 0.0;
-        Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
+        /*Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();
             HighlightField highlightField = highlightFieldMap.get(key);
@@ -173,6 +176,16 @@ public class SingleQueryThread implements Callable<String> {
                     temp = newScore;
                 }
                 highMap.put(key, original);
+            }
+        }*/
+        for (Map.Entry<String, HighlightField> entry : highlightFieldMap.entrySet()) {
+            if (entry.getValue() != null) {
+                String original = hitfieldMap.get(entry.getKey()).value().toString();
+                double newScore = ScoreUtil.getDistance(searchValue, original) * 100;
+                if (newScore > temp) {
+                    temp = newScore;
+                }
+                highMap.put(entry.getKey(), original);
             }
         }
         resList.add(highMap);
@@ -190,13 +203,19 @@ public class SingleQueryThread implements Callable<String> {
         HashMap<String, Object> resMap = new HashMap<String, Object>();
         Map<String, SearchHitField> hitfieldMap = searchHit.getFields();
         Map<String, HighlightField> highlightFieldMap = searchHit.highlightFields();
-        Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
+       /* Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
         while (keyIterator.hasNext()) {
             String key = keyIterator.next();
             HighlightField highlightField = highlightFieldMap.get(key);
             if (highlightField != null) {
                 String original = hitfieldMap.get(key).value().toString();
                 resMap.put(key, original);
+            }
+        }*/
+        for (Map.Entry<String, HighlightField> entry : highlightFieldMap.entrySet()) {
+            if (entry.getValue() != null) {
+                String original = hitfieldMap.get(entry.getKey()).value().toString();
+                resMap.put(entry.getKey(), original);
             }
         }
         return resMap;

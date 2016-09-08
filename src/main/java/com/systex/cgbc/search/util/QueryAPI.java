@@ -414,7 +414,7 @@ public class QueryAPI {
 	public SearchResponse searchQueryBuilder(QueryBuilder queryBuilder,
 		String[] indexName, String indexType, int size) {
 
-		long startTime = System.currentTimeMillis();
+      //long startTime = System.currentTimeMillis();
 
 		SearchResponse response = client.prepareSearch(indexName)
 			.setTypes(indexType)
@@ -423,8 +423,8 @@ public class QueryAPI {
 			// Query
 			.setFrom(0).setSize(size).setExplain(true).execute()
 			.actionGet();
-		long endTime = System.currentTimeMillis();
-		return response;
+      //long endTime = System.currentTimeMillis();
+      return response;
 	}
 
 	/**

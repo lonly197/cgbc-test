@@ -5,7 +5,6 @@ import org.elasticsearch.client.Client;
 import org.elasticsearch.client.transport.TransportClient;
 import org.elasticsearch.common.settings.Settings;
 import org.elasticsearch.common.transport.InetSocketTransportAddress;
-import org.elasticsearch.node.Node;
 
 import java.net.InetAddress;
 import java.net.UnknownHostException;
@@ -17,8 +16,8 @@ import java.net.UnknownHostException;
  */
 public class ClientAPI {
 	private Client client;
-	private Node node;
-	private Config config;
+    /*private Node node;*/
+    private Config config;
 
 	/**
 	 *
@@ -60,11 +59,11 @@ public class ClientAPI {
 	 * 关闭node
 	 */
 	public void close() {
-		if (node != null) {
-			synchronized (node) {
+    /*if (node != null) {
+      synchronized (node) {
 				node.close();
 			}
-		}
+		}*/
 		if (client != null) {
 			synchronized (client) {
 				client.close();
