@@ -1,5 +1,6 @@
 package com.systex.cgbc.load;
 
+import com.google.common.base.Strings;
 import com.systex.cgbc.search.util.ClientAPI;
 import com.systex.cgbc.util.Config;
 import org.elasticsearch.action.bulk.BulkRequestBuilder;
@@ -36,9 +37,6 @@ public class LoadDataTask implements Callable<Object> {
     /**
      * 构造函数
      *
-     * @param clientType
-     * @param _path
-     * @param _index
      * @param countDownLatch
      */
     public LoadDataTask(CountDownLatch countDownLatch) {
@@ -53,10 +51,11 @@ public class LoadDataTask implements Callable<Object> {
      * @param _bulkSize
      * @param _indexName
      */
-    public static void init(Stack<File> _files, int _bulkSize) {
+    public static void init(Stack<File> _files, int _bulkSize, String _indexName) {
         LOG.info("初始化LoadDataTask静态数据");
         bulkSize = _bulkSize;
-        indexName = config.getProperty("indexName");
+        indexName =
+            Strings.isNullOrEmpty(_indexName) ? config.getProperty("indexName") : _indexName;
         type = config.getProperty("indexType");
         indexFields = config.getArrays("fields");
         files = _files;

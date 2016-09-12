@@ -85,6 +85,8 @@ public class FileUtil {
             return;
         }
         String[] childFiles = file.list();
+        if (childFiles == null)
+            return;
         File temp = null;
         for (int i = 0; i < childFiles.length; i++) {
             // File.separator与系统有关的默认名称分隔符
@@ -246,6 +248,8 @@ public class FileUtil {
             mkdir(newPath);
             File file = new File(oldPath);
             String[] files = file.list();
+            if (files == null)
+                return;
             String tempPath = null;
             File tempFile = null;
             for (int i = 0; i < files.length; i++) {
@@ -600,23 +604,34 @@ public class FileUtil {
      * @return
      */
     public static PrintWriter getPrintWriter(String path) {
-        return getPrintWriter(path, "UTF-8");
+        return getPrintWriter(path, false);
     }
 
+    /**
+     * 根据文件路径获取输出流
+     *
+     * @param path   文件路径
+     * @param append 是否追加
+     * @return
+     */
+    public static PrintWriter getPrintWriter(String path, Boolean append) {
+        return getPrintWriter(path, "UTF-8", append);
+    }
 
     /**
      * 根据文件路径获取输出流
      * 
      * @param path
      * @param charset
+     * @param append 是否追加
      * @return
      */
-    public static PrintWriter getPrintWriter(String path, String charset) {
+    public static PrintWriter getPrintWriter(String path, String charset, Boolean append) {
         PrintWriter pw = null;
         try {
             pw =
                 new PrintWriter(
-                    new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path),
+                    new BufferedWriter(new OutputStreamWriter(new FileOutputStream(path, append),
                         charset)));
         } catch (Exception e) {
             // TODO Auto-generated catch block
