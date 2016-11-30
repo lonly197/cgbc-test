@@ -8,6 +8,7 @@ import com.systex.cgbc.search.bean.SResult;
 import com.systex.cgbc.search.util.CgbcConstants;
 import com.systex.cgbc.search.util.QueryAPI;
 import com.systex.cgbc.search.util.ScoreUtil;
+
 import org.elasticsearch.search.SearchHit;
 import org.elasticsearch.search.SearchHitField;
 import org.elasticsearch.search.SearchHits;
@@ -56,6 +57,7 @@ public class SingleQueryThread implements Callable<String> {
 
     public SearchHits fuzzySearch(String index, String type, String field, String value, int topN) {
         SearchHits hits = queryAPI.matchSearch(_field, value, index, type, topN);
+       /* SearchHits hits = queryAPI.fuzzySearch(field, value, index, type, topN);*/
         return hits;
     }
 
@@ -165,19 +167,6 @@ public class SingleQueryThread implements Callable<String> {
         Map<String, SearchHitField> hitfieldMap = searchHit.getFields();
         Map<String, HighlightField> highlightFieldMap = searchHit.highlightFields();
         double temp = 0.0;
-        /*Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
-        while (keyIterator.hasNext()) {
-            String key = keyIterator.next();
-            HighlightField highlightField = highlightFieldMap.get(key);
-            if (highlightField != null) {
-                String original = hitfieldMap.get(key).value().toString();
-                double newScore = ScoreUtil.getDistance(searchValue, original) * 100;
-                if (newScore > temp) {
-                    temp = newScore;
-                }
-                highMap.put(key, original);
-            }
-        }*/
         for (Map.Entry<String, HighlightField> entry : highlightFieldMap.entrySet()) {
             if (entry.getValue() != null) {
                 String original = hitfieldMap.get(entry.getKey()).value().toString();
@@ -203,15 +192,6 @@ public class SingleQueryThread implements Callable<String> {
         HashMap<String, Object> resMap = new HashMap<String, Object>();
         Map<String, SearchHitField> hitfieldMap = searchHit.getFields();
         Map<String, HighlightField> highlightFieldMap = searchHit.highlightFields();
-       /* Iterator<String> keyIterator = highlightFieldMap.keySet().iterator();
-        while (keyIterator.hasNext()) {
-            String key = keyIterator.next();
-            HighlightField highlightField = highlightFieldMap.get(key);
-            if (highlightField != null) {
-                String original = hitfieldMap.get(key).value().toString();
-                resMap.put(key, original);
-            }
-        }*/
         for (Map.Entry<String, HighlightField> entry : highlightFieldMap.entrySet()) {
             if (entry.getValue() != null) {
                 String original = hitfieldMap.get(entry.getKey()).value().toString();

@@ -133,7 +133,7 @@ public class ScoreUtil {
         System.out.println(getDistance(str1, str2));
         System.out.println(sim(str1, str2));
 
-        /*for (int i = 0; i < 10; i++) {
+       /* for (int i = 0; i < 10; i++) {
             getDistance(str1, str2);
         }*/
     }

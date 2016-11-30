@@ -13,7 +13,14 @@ import org.elasticsearch.search.SearchHits;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import static org.elasticsearch.index.query.QueryBuilders.*;
+import static org.elasticsearch.index.query.QueryBuilders.matchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.moreLikeThisQuery;
+import static org.elasticsearch.index.query.QueryBuilders.multiMatchQuery;
+import static org.elasticsearch.index.query.QueryBuilders.prefixQuery;
+import static org.elasticsearch.index.query.QueryBuilders.queryStringQuery;
+import static org.elasticsearch.index.query.QueryBuilders.rangeQuery;
+import static org.elasticsearch.index.query.QueryBuilders.termsQuery;
+import static org.elasticsearch.index.query.QueryBuilders.wildcardQuery;
 
 /**
  * search请求的形式 client.prepareSearch("index1", "index2") 指定索引 .setTypes("type1",
@@ -126,7 +133,7 @@ public class QueryAPI {
 
 		SearchHits hits = this.searchQueryBuilder2(queryBuilder, indexName, indexType,
 				size).getHits();
-		
+
 		/*SearchResponse searchResponse = client.prepareSearch(indexName)
 				.setTypes(indexType).setQuery(queryBuilder).setFrom(0)
 				.setSize(size).setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
@@ -316,7 +323,7 @@ public class QueryAPI {
 		SearchRequestBuilder searchRequestBuilder = client
 			.prepareSearch(indexName).setTypes(indexType).addFields(fields)
 			// .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-			.setQuery(queryBuilder).setFrom(0).setSize(size)
+				.setQuery(queryBuilder).setFrom(0).setSize(size).setHighlighterRequireFieldMatch(false)
 			.setExplain(true);
 
 		for (String field : fields) {
@@ -354,7 +361,7 @@ public class QueryAPI {
 		SearchRequestBuilder searchRequestBuilder = client
 			.prepareSearch(indexName).setTypes(indexType).addFields(fields)
 			// .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-			.setQuery(queryBuilder).setFrom(0).setSize(size)
+				.setQuery(queryBuilder).setFrom(0).setSize(size).setHighlighterRequireFieldMatch(false)
 			.setExplain(true);
 
 		for (String field : fields) {
@@ -392,7 +399,7 @@ public class QueryAPI {
 		SearchRequestBuilder searchRequestBuilder = client
 			.prepareSearch(indexName).setTypes(indexType).addFields(fields)
 			// .setSearchType(SearchType.DFS_QUERY_THEN_FETCH)
-			.setQuery(queryBuilder).setFrom(0).setSize(size)
+				.setQuery(queryBuilder).setFrom(0).setSize(size).setHighlighterRequireFieldMatch(false)
 			.setExplain(true);
 
 		for (String field : fields) {
